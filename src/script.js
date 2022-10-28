@@ -21,9 +21,9 @@ function formatDate(timestamp){
     return `${day} ${hours}:${minutes}`;
 }
 
-function showForecast(){
+function showForecast(response){
     let forecastElem = document.querySelector("#forecast");
-    console.log(forecastElem);
+    console.log(response.data.daily);
     let days = ["Mon", "Tue", "Wed"];
     let forecastRow =`<div class="row">`;
     days.forEach(function (days){
@@ -42,28 +42,37 @@ function showForecast(){
     forecastElem.innerHTML = forecastRow;
 }
 
+function dispalyForecast(coordinates){
+    console.log(coordinates);
+    let apiKey = "35af20a51228d76bt18bb4ac458c490o";
+    let apiUrl =`https://api.shecodes.io/weather/v1/forecast?lon=${coordinates.longitude}&lat=${coordinates.latitude}&key=${apiKey}&units=metric`
+    axios.get(apiUrl).then(showForecast);
+}
+
 function displayTemper(response){
     //console.log(response.data);
     let cityElem = document.querySelector("#city");
     let temperElem = document.querySelector("#temper");
-    let descriptionElem =document.querySelector("#description");
+    let descriptionElem = document.querySelector("#description");
     let humidElem = document.querySelector("#humid");
-    let windElem =document.querySelector("#wind");
+    let windElem = document.querySelector("#wind");
     let nowtimeElem = document.querySelector("#nowtime");
     let iconElem = document.querySelector("#w-icon");
-    showForecast();
-    celsTemp = response.data.main.temp;
-    temperElem.innerHTML =Math.round(celsTemp);
-    cityElem.innerHTML =response.data.name;
-    descriptionElem.innerHTML =response.data.weather[0].description;
-    humidElem.innerHTML =response.data.main.humidity;
-    windElem.innerHTML =Math.round(response.data.wind.speed);
-    nowtimeElem.innerHTML = formatDate(response.data.dt * 1000);
-    iconElem.setAttribute("src", `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`);
+    //console.log(response);
+    cityElem.innerHTML = response.data.city;
+    celsTemp = response.data.temperature.current;
+    temperElem.innerHTML = Math.round(celsTemp);
+    descriptionElem.innerHTML =response.data.condition.description;
+    humidElem.innerHTML = response.data.temperature.humidity;
+    windElem.innerHTML = Math.round(response.data.wind.speed);
+    nowtimeElem.innerHTML = formatDate(response.data.time * 1000);
+    iconElem.setAttribute("src", `${response.data.condition.icon_url}`);
+    dispalyForecast(response.data.coordinates);
 }
 function showWeather(cityName){
-  let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
-  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`;
+  let apiKey = "35af20a51228d76bt18bb4ac458c490o";
+  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${cityName}&key=${apiKey}&units=metric`;
+  //console.log(apiUrl);
   axios.get(apiUrl).then(displayTemper);
 }
 
