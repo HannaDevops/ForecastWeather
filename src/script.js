@@ -25,8 +25,7 @@ function showDay(timestamp){
     let date = new Date(timestamp * 1000);
     let day = date.getDay();
     let days = [ "Sun", "Mon", "Tue", "Wed", "Thu",  "Fri",  "Sat" ];
-    console.log(date);
-return days[day];
+    return days[day];
 }
 
 function showForecast(response){
@@ -71,7 +70,6 @@ function displayTemper(response){
     let windElem = document.querySelector("#wind");
     let nowtimeElem = document.querySelector("#nowtime");
     let iconElem = document.querySelector("#w-icon");
-    //console.log(response);
     cityElem.innerHTML = response.data.city;
     celsTemp = response.data.temperature.current;
     temperElem.innerHTML = Math.round(celsTemp);
@@ -85,7 +83,6 @@ function displayTemper(response){
 function showWeather(cityName){
   let apiKey = "35af20a51228d76bt18bb4ac458c490o";
   let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${cityName}&key=${apiKey}&units=metric`;
-  //console.log(apiUrl);
   axios.get(apiUrl).then(displayTemper);
 }
 
