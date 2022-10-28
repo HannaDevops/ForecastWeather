@@ -21,22 +21,35 @@ function formatDate(timestamp){
     return `${day} ${hours}:${minutes}`;
 }
 
+function showDay(timestamp){
+    let date = new Date(timestamp * 1000);
+    let day = date.getDay();
+    let days = [ "Sun", "Mon", "Tue", "Wed", "Thu",  "Fri",  "Sat" ];
+    console.log(date);
+return days[day];
+}
+
 function showForecast(response){
     let forecastElem = document.querySelector("#forecast");
-    console.log(response.data.daily);
-    let days = ["Mon", "Tue", "Wed"];
+    let forecastDaily = response.data.daily;
+    console.log(forecastDaily);
     let forecastRow =`<div class="row">`;
-    days.forEach(function (days){
+    
+    forecastDaily.forEach(function (forecastArray, countElem){
+        if (countElem < 6){
+        let dayName = showDay(forecastArray.time);
+        let tMax = Math.round(forecastArray.temperature.maximum);
+        let tMin = Math.round(forecastArray.temperature.minimum);
         forecastRow = forecastRow + `
         <div class="col-2">
-            <h6 class="forecast-date">${days}</h6>
-            <img src="" class="forecast-img" width="30" alt=""/>🌤
+            <h6 class="forecast-date">${dayName}</h6>
+            <img src="${forecastArray.condition.icon_url}" class="forecast-img" width="30" alt=""/>
             <h6  class="forecast-temper"> 
-                <span class="forecast-temper-max">21°</span>
-                <span class="forecast-temper-min">19°</span>
+                <span class="forecast-temper-max">${tMax}°</span>
+                <span class="forecast-temper-min">${tMin}°</span>
             </h6>
         </div>
-    `;
+    `;}
     });
     forecastRow = forecastRow + `</div>`;
     forecastElem.innerHTML = forecastRow;

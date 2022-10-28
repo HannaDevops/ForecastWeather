@@ -71,6 +71,7 @@ top:-14px;
 }
 .forecast-temper{
     font-size:small;
+    margin-top: 8px;
 }
 .forecast-temper-min{
     opacity: 0.8;
