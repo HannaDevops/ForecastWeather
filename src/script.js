@@ -23,6 +23,7 @@ function formatDate(timestamp){
 
 function showForecast(){
     let forecastElem = document.querySelector("#forecast");
+    console.log(forecastElem);
     let days = ["Mon", "Tue", "Wed"];
     let forecastRow =`<div class="row">`;
     days.forEach(function (days){
@@ -37,10 +38,8 @@ function showForecast(){
         </div>
     `;
     });
-    
-    
     forecastRow = forecastRow + `</div>`;
-    forecastElem.innerHTML= forecastRow;
+    forecastElem.innerHTML = forecastRow;
 }
 
 function displayTemper(response){
